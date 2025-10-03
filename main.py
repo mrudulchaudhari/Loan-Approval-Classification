@@ -36,3 +36,15 @@ print(df.duplicated().sum())
 print("-"*50)
 
 # There are no duplicate values, so we need not handle them
+
+#REMOVING OUTLIER USING IQR METHOD
+def remove_outlier(dataframe:pd.DataFrame, column:str) -> pd.DataFrame:
+    """docstring for remove_outlier"""
+    q1 = dataframe[column].quantile(0.25)
+    q3 = dataframe[column].quantile(0.75)
+    iqr = q3 - q1
+    lower_bound = q1 - 1.5 * iqr
+    upper_bound = q3 + 1.5 * iqr
+    dataframe = dataframe[(dataframe[column] >= lower_bound) & (dataframe[column] <= upper_bound)]
+
+    return dataframe
